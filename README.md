@@ -82,7 +82,7 @@ mm10_star.sh script
 * Before moving on, I wanted to ensure the statistics of my reads matched those from the paper (Tables 1 and 9), so I generated this table in Excel
 
 
-![Excel_stats]("(https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/Screenshot%20(220).png)")
+![Excel_stats](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/Screenshot%20(220).png)
 
 * My statistics matched those from the paper, only off by a few numbers, assuming this is due to me using the most up to date Mus Musculus genome, while they used the previously published version. 
 
