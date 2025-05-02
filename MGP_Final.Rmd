@@ -1,0 +1,326 @@
+---
+title: "MGP_Final"
+author: "Maya Abdalla"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+# HTSeq provides fragment counts, which outputs can then be passed to DESeq2 to quantify differential gene expression
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load the necessary packages and installations
+
+```{r, quiet=TRUE, echo=FALSE, message=FALSE}
+
+if (!require("tximport")) {
+  install.packages("tximport")}
+
+if (!require("readr")) {
+  install.packages("readr")}
+
+if (!require("ggplot2", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("ggplot2")
+
+if (!require("DESeq2", quietly = TRUE))
+  BiocManager::install("DESeq2")
+
+if (!require("ggrepel", quietly = TRUE))
+  BiocManager::install("ggrepel")
+
+if (!require("tximport", quietly = TRUE))
+  BiocManager::install("tximport")
+```
+
+
+# Install and call the libraries
+```{r library installation}
+library(tximport)
+library(readr)
+library(here)
+library(DESeq2)
+library(ggrepel)
+```
+
+# Import salmon quant files
+```{r import}
+
+salmon_dir <- "MGP_Final/salmon_quant_final"
+
+```
+
+# Extract and name the quant.sf files from the salmon_dir folder
+
+```{r salmon quant files}
+# Path to the quant file directory
+
+salmon_dir <- "salmon_quant_final"
+
+# List the quant.sf files from the folder
+
+salmon_files <- list.files(
+  path = salmon_dir,
+  pattern = "quant.sf",
+  recursive = TRUE,
+  full.names = TRUE
+)
+
+# Extract sample names
+sample_names <- basename(dirname(salmon_files))
+
+# Assign sample names
+names(salmon_files) <- sample_names
+
+#Validate it worked
+names(salmon_files)
+
+```
+
+# Import the quantification data and tximport
+
+```{r tximport}
+
+# Load the tximport library
+library(tximport)
+
+# Import the quantification data
+txi <- tximport(salmon_files, type = "salmon", txOut = TRUE)
+
+# Extract the counts matrix
+counts_matrix <- txi$counts
+
+```
+# Save the counts matrix to a file
+```{r matrix to file}
+
+#Write to a CSV file
+
+write.csv(counts_matrix, file=here("salmon_quant_matrix.csv"), row.names = TRUE)
+
+print("Quantification matrix saved as 'salmon_quant_matrix.csv'.")
+
+
+```
+#Load the count matrix from CSV and view the first rows 
+
+```{r count data}
+
+library(readr)
+
+count_data <-read.csv(here("salmon_quant_matrix.csv"),
+                      row.names = 1)
+
+# Convert to data frame - actually don't need
+#count_data1 <- as.data.frame(count_data)
+
+head(count_data)
+
+```
+# Create sample metadata CTL vs. DN 
+
+```{r DESeq2 on count_data}
+
+sample_stats <- data.frame(
+  sample = colnames(count_data),
+  conditions = c("CTL", "CTL", "DN", "DN")
+)
+rownames(sample_stats) <-sample_stats$sample
+
+print(sample_stats)
+
+```
+
+#Round data to integers
+
+```{r round count_data}
+count_data <- round(count_data)
+```
+
+
+# Create the DESeq Dataset Object
+
+```{r DESeq Object}
+
+dds <- DESeqDataSetFromMatrix(
+  countData = count_data,
+  colData = sample_stats,
+  design = ~ conditions
+)
+
+```
+
+# Run DESeq2
+
+```{r running DESeq2}
+dds <- DESeq(dds)
+
+#Print results 
+print(dds)
+```
+# Extract results - Comparison of CTL VS DN 
+
+```{r result comparion}
+
+# Results of CTL VS DN 
+dds_res <- results(dds, contrast = c("conditions", "CTL", "DN"))
+
+# Print to ensure it worked correctly
+print(dds_res)
+
+```
+# Data Filtering because many zero entries and the total number of tested genes with valid p-values is low
+
+```{r result filtering before viz}
+
+# Remove rows with missing adjusted p-values (padj)
+res_filtered <- dds_res[!is.na(dds_res$padj),]
+
+# Print results
+print(res_filtered)
+
+# After filtering, left with 54,238 rows --> genes had enough expression and variability to measure
+  # Started from 115,424 genes to 54,238 
+
+```
+# 54,238 genes is still a lot, so filter to significant genes
+
+```{r sig genes}
+
+# Finding significant genes by filtering adjusted p-value and > 1 logFoldChange
+sig_genes <- res_filtered[res_filtered$padj < 0.05 & abs(res_filtered$log2FoldChange) > 1, ]
+
+# Number of rows - how many significant
+nrow(sig_genes) # 664 significant genes
+head(sig_genes) # top 6 differential expressed genes
+
+```
+# Save the significant genes for visualization as a CSV
+
+```{r sig_genes csv}
+
+write.csv(as.data.frame(sig_genes), file = "significant_genes.csv")
+
+```
+
+# MA plot w/ res_filtered --> CTL_04 and CTL_90_04 VS. DN_04 and DN_90_4
+
+```{r MA 1}
+
+# Plot directory
+dir.create("MGP_Final/plots", recursive = TRUE, showWarnings = FALSE)
+           
+# Save to PDF
+pdf("MGP_Final/plots/MA_plot_CTL_VS_DN.pdf")
+
+# Plot MA dds_res
+plotMA(res_filtered, main = "MA Plot: CTL vs DN (all 4 samples)", ylim = c(-5,5))
+
+#Close PDF
+dev.off()
+
+```
+# Above is the Volcano plot of the CTL groups vs. the denervated skeletal (DN) muscle groups, from day 0 to day 90. This plot is with the filtered genes which is still 54,238 data points, so then I wanted to plot the signficant genes (664) to see the difference.
+
+# MA plot w/significant genes
+
+```{r MA 2}
+
+# Plot directory
+#dir.create("MGP_Final/plots", recursive = TRUE, showWarnings = FALSE)
+           
+# Save to PDF
+pdf("MGP_Final/plots/MA_plot_Significant_CTL_VS_DN.pdf")
+
+# Plot sig_genes
+sig_plot <- plotMA(sig_genes, main = "MA Plot: CTL vs DN (all 4 samples)", ylim = c(-5,5))
+
+#Close PDF
+dev.off()
+
+print(sig_plot)
+
+```
+# Volcano Plot 1 - CTL vs. DN
+
+```{r volcano 1}
+
+pdf("./MGP_Final/plots/volcano1_1_1.pdf")
+
+ggplot(as.data.frame(res_filtered), aes(x = log2FoldChange, y = -log10(padj))) +
+    geom_point(aes(color = padj < 0.05 & abs(log2FoldChange) > 1), alpha = 0.7) +
+    scale_color_manual(values = c("black", "red")) +
+    labs(title = "Overall Volcano Plot Comparison (CTL vs DN)", x = "Log2 Fold Change", y = "-Log10 Adjusted P-value") +
+    theme_minimal()
+dev.off()
+
+```
+
+# After looking into how DESeq2 works, it requires biological replicates - at least 2 per group to estimate gene-wise dispersion and can't do it with the DESeq2 because we have one sample per condition and not replicates. 
+# Also after looking at the paper, they generated a scatterplot of the log2 fold change, so I moved on to generated multiple scatterplots as seen before. 
+
+
+# Scatterplot of gene expression, showing the log2 transform of normalized counts for 90 day samples
+
+```{r scatterplot 1}
+
+# Save to PDF
+pdf("MGP_Final/plots/90_days_scatterplot.pdf")
+
+# Extract normalized counts from the DESeq2 object
+norm_counts <- counts(dds, normalized = TRUE)
+
+# Log2-transform the counts (+1 to avoid log2(0))
+log2_counts <- log2(norm_counts + 1)
+
+# Plot DN_90_4 vs CTL_90_4
+plot(
+  log2_counts[, "CTL_90_4"],
+  log2_counts[, "DN_90_4"],
+  xlab = "log2 Normalized Counts: CTL_90_4",
+  ylab = "log2 Normalized Counts: DN_90_4",
+  main = "CTL_90_4 vs DN_90_4",
+  pch = 20,
+  col = "black"
+)
+
+# Add identity line y = x
+abline(0, 1, col = "red", lty = 2)
+
+```
+
+# Scatterplot of gene expression, showing the log2 transform of normalized counts for 0 day samples 
+
+```{r day 0 samples}
+
+# Save to PDF
+pdf("MGP_Final/plots/0_days_scatterplot.pdf")
+
+# Extract normalized counts from the DESeq2 object
+norm_counts2 <- counts(dds, normalized = TRUE)
+
+# Log2-transform the counts (+1 to avoid log2(0))
+log2_counts2 <- log2(norm_counts2 + 1)
+
+# Plot DN_04 vs CTL_04
+plot(
+  log2_counts2[, "CTL_04"],
+  log2_counts2[, "DN_04"],
+  xlab = "log2 Normalized Counts: CTL_04",
+  ylab = "log2 Normalized Counts: DN_04",
+  main = "CTL_04 vs DN_04",
+  pch = 20,
+  col = "black"
+)
+
+# Add identity line y = x
+abline(0, 1, col = "blue", lty = 2)
+
+```
+
+#Based on the results of the scatterplots, the CTL04 and DN04 (DAY 0) tissues are transcriptionally similar. But overtime, as expected the CTL90 and DN90 (DAY 90) tissues show large-scale gene expression divergence over time, as expected, with denervated skeletal muscle overtime, as the biological effects of denervation progress over time. These results support the conclusion that gene dysregulation and variation increases overtime in DN samples. 
+
+
+
+
