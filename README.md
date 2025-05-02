@@ -78,7 +78,7 @@ gunzip Mus_musculus.GRCm39.113.gtf.gz --> Mus_musculus.GRCm39.113.gtf
 ### Then I aligned the sorted BAM files with STAR, running the script: 
 [mm10_star.sh](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/mm10_star.sh)
 
-## Inspected alignment results to ensure succesful mapping 
+### Inspected alignment results to ensure succesful mapping 
 * Before moving on, I wanted to ensure the statistics of my reads matched those from the paper (Tables 1 and 9), so I generated this table in Excel
 
 
@@ -129,6 +129,6 @@ Figure 5. DAY 90 (CTL vs. DN 90) Scatter Plot
 [Day 90 Scatter Plot](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/90_days_scatterplot.pdf)
 
 
-# Conclusion
+## Conclusion
 Based on the results of the scatterplots, the CTL04 and DN04 (DAY 0) tissues are transcriptionally similar. But overtime, as expected the CTL90 and DN90 (DAY 90) tissues show large-scale gene expression divergence over time, as expected, with denervated skeletal muscle overtime, as the biological effects of denervation progress over time. These results support the conclusion that gene dysregulation and variation increases overtime in DN samples. From this pairwise comparision exploration I enjoyed using the tools learned from class to do this analysis, see the results I expect and validate them. 
 
