@@ -49,7 +49,6 @@ mv SRR9026502 DN_90_4
 ## Step 2: Run FASTQC and build STAR index
 * No reads were trimmed or filtered before the alignment (STAR) stage because Phred scores were high, 
 70 across cycles and nucelotide composition was uniform, according to the authors
-* 
 
 ``` bash 
 # Fastqc on all files ending in .fastq and then built a Star index
