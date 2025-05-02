@@ -110,7 +110,7 @@ head _quant.sf
 
 ```
 
-# Step 4: DESeq2 results and figures from .Rmd File
+## Step 4: DESeq2 results and figures from .Rmd File
 The figures and results below are from the [MGP_Final.Rmd file](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/MGP_Final.Rmd) 
 
 Figure 1. MA Plot of Filtered Results - Filtered meaning removing low p values (those = na)
