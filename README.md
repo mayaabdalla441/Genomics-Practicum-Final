@@ -1,6 +1,6 @@
 # Genomics-Practicum-Final
  
-## Link to Paper = [Paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC6760191/)
+## Link to [Paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC6760191/)
 
 ## Overview of project
 My project aimed to replicate the RNA-Seq analysis the authors described in the paper. The authors performed Illumina sequencing with 69-bp paired end reads, and then FastQC for library preparation/sequencing. Since the reads were of high quality, no reads were trimmed or filtered before alignment to the Mus musculus mm10 genome using STAR. Gene counts were generated with HTSeq using the mm10 refSeq annotation. However, when I attempted this step, the HTSeq run time exceeded 20 days, so I switched to Salmon for efficient transcript quantification.
