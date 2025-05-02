@@ -96,11 +96,11 @@ gunzip Mus_musculus.GRCm39.113.gtf.gz --> Mus_musculus.GRCm39.113.gtf
 
 [bam_index.sh](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/bam_index.sh)
 
-### Then, I ran the script below to build a Salmon index from the Enseml mm10 cDNA FASTA file
+### Then, I ran this to build a Salmon index from the Enseml mm10 cDNA FASTA file
 
 [salmon_index.sh](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/salmon_index.sh)
 
-### Then quantified with Salmon (script below) on all paired FASTQs and outputed to salmon_quant directory
+### Then quantified with Salmon on all paired FASTQs and outputed to salmon_quant directory
 
 [salmon_quant1.sh](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/salmon_quant1.sh)
 
