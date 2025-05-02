@@ -70,13 +70,14 @@ wget https://ftp.ensembl.org/pub/release-113/gtf/mus_musculus/Mus_musculus.GRCm3
 gunzip Mus_musculus.GRCm39.dna.primary_assembly.fa.gz --> Mus_musculus.GRCm39.dna.primary_assembly.fa
 
 gunzip Mus_musculus.GRCm39.113.gtf.gz --> Mus_musculus.GRCm39.113.gtf
+```
 
 # After obtaining the genomes, I ran the script below
 [mm10_starindex.sh](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/mm10_starindex.sh) 
 
 # Then I aligned the sorted BAM files with STAR, running the script: 
 [mm10_star.sh](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/mm10_star.sh)
-```
+
 ## Inspected alignment results to ensure succesful mapping 
 * Before moving on, I wanted to ensure the statistics of my reads matched those from the paper (Tables 1 and 9), so I generated this table in Excel
 
