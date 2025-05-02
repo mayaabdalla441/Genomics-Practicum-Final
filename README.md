@@ -105,7 +105,7 @@ quant_Salmonall.sh
 # Lastly I opened each quant.sf file and ensured that the contents were reasonable before exporting for DESeq2 analysis
 
 head _quant.sf
-#Print an example output of the quant.sf
+
 
 ```
 
