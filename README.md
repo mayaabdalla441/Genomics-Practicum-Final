@@ -72,10 +72,10 @@ gunzip Mus_musculus.GRCm39.dna.primary_assembly.fa.gz --> Mus_musculus.GRCm39.dn
 gunzip Mus_musculus.GRCm39.113.gtf.gz --> Mus_musculus.GRCm39.113.gtf
 ```
 
-# After obtaining the genomes, I ran the script below
+### After obtaining the genomes, I ran the script below
 [mm10_starindex.sh](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/mm10_starindex.sh) 
 
-# Then I aligned the sorted BAM files with STAR, running the script: 
+### Then I aligned the sorted BAM files with STAR, running the script: 
 [mm10_star.sh](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/mm10_star.sh)
 
 ## Inspected alignment results to ensure succesful mapping 
@@ -92,25 +92,22 @@ gunzip Mus_musculus.GRCm39.113.gtf.gz --> Mus_musculus.GRCm39.113.gtf
 * I used this script for the HTSeq attempt: [htseq.sh](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/htseq.sh)
 * Also tried feature_counts before realizing it also was not producing the results I wanted, through this script: [feature_counts1](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/feature_counts1.sh)
 
-``` bash 
-# Utilized the script below to remove ".Aligned.sortedByCoord.out" from BAM names and index them with IGVtools
+### Utilized the script below to remove ".Aligned.sortedByCoord.out" from BAM names and index them with IGVtools
 
 [bam_index.sh](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/bam_index.sh)
 
-# Then, I ran the script below to build a Salmon index from the Enseml mm10 cDNA FASTA file
+### Then, I ran the script below to build a Salmon index from the Enseml mm10 cDNA FASTA file
 
 [salmon_index.sh](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/salmon_index.sh)
 
-# Then quantified with Salmon (script below) on all paired FASTQs and outputed to salmon_quant directory
+### Then quantified with Salmon (script below) on all paired FASTQs and outputed to salmon_quant directory
 
 [salmon_quant1.sh](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/salmon_quant1.sh)
 
-# Lastly I opened each quant.sf file and ensured that the contents were reasonable before exporting for DESeq2 analysis
+### Lastly I opened each quant.sf file and ensured that the contents were reasonable before exporting for DESeq2 analysis
 
 head _quant.sf
 
-
-```
 
 ## Step 4: DESeq2 results and figures from .Rmd File
 The figures and results below are from the [MGP_Final.Rmd file](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/MGP_Final.Rmd) 
