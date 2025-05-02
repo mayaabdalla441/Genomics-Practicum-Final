@@ -129,5 +129,6 @@ Figure 4. DAY 0 (CTL vs. DN 90) Scatter Plot
 Figure 5. DAY 90 (CTL vs. DN 90) Scatter Plot
 [Day 90 Scatter Plot](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/90_days_scatterplot.pdf)
 
+#Based on the results of the scatterplots, the CTL04 and DN04 (DAY 0) tissues are transcriptionally similar. But overtime, as expected the CTL90 and DN90 (DAY 90) tissues show large-scale gene expression divergence over time, as expected, with denervated skeletal muscle overtime, as the biological effects of denervation progress over time. These results support the conclusion that gene dysregulation and variation increases overtime in DN samples. 
 
 
