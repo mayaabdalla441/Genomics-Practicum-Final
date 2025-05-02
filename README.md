@@ -114,10 +114,10 @@ head _quant.sf
 The figures and results below are from the [MGP_Final.Rmd file](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/MGP_Final.Rmd) 
 
 Figure 1. MA Plot of Filtered Results - Filtered meaning removing low p values (those = na)
-![MA plot 1](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/MA_plot_CTL_VS_DN.pdf)
+[MA plot 1](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/MA_plot_CTL_VS_DN.pdf)
 
 Figure 2. MA Plot of Significant Genes 
-![MA plot 2](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/MA_plot_Significant_CTL_VS_DN.pdf)
+[MA plot 2](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/MA_plot_Significant_CTL_VS_DN.pdf)
 
 Figure 3. Volcano Plot of All samples
 [Volcano Plot](https://github.com/mayaabdalla441/Genomics-Practicum-Final/blob/main/volcano1_1_1.pdf)
